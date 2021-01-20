@@ -1,0 +1,11 @@
+nav {
+  height: 64px;
+  box-shadow: 3px 3px 4px grey;
+  display: fixed;
+}
+
+.nav-title {
+  margin: 0 0 0 10px;
+  height: 100%;
+  padding-top: 15px;
+}
