@@ -5,7 +5,9 @@
 .project-panel {
   margin: 2%;
   padding-left: 2%;
-  box-shadow: 3px 3px 4px grey;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
   padding-bottom: 1%;
 }
 
