@@ -12,7 +12,14 @@ class Project extends Component {
     }
 
     setVote = () => {
-        this.setState({votedFor:(!this.state.votedFor)});
+        if(!this.state.votedFor){
+            if(this.props.handleVote()){
+                this.setState({votedFor:(!this.state.votedFor)});
+            }
+        } else{
+            this.props.handleVoteRemoved();
+            this.setState({votedFor:(!this.state.votedFor)});
+        }
     }
 
     render() { 
