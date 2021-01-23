@@ -6,6 +6,8 @@ const cors = require('cors');
 const http = require('http');
 const socket = require('socket.io');
 
+const {addProject} = require('./utils/sessions');
+
 const server = http.createServer(app);
 const io = socket(server);
 
@@ -36,5 +38,9 @@ app.listen(3001, () => {
 io.on('connection', socket => {
     socket.on('join-session',() =>{
 
+    });
+
+    socket.on('add-project',(sessionId,project) => {
+        addProject(sessionId,project);
     });
 });
