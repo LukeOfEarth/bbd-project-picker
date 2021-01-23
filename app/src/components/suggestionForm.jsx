@@ -15,13 +15,21 @@ class Suggestion extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        if(!this.state.title || !this.state.description){
+            alert('Error: Fields cannot be empty');
+            return;
+        }
+
         const newProject = {
             title:this.state.title,
             desc:this.state.description,
             name:'Project Proposer'
         }
 
-        this.props.addNewProject(newProject)
+        this.props.addNewProject(newProject);
+
+        document.getElementById('form-input').value = '';
+        document.getElementById('form-text').value = '';
     }
 
     handleChange = (event) => {
@@ -38,13 +46,13 @@ class Suggestion extends Component {
                 <form>
                     <div className='form-input'>
                         <label className='form-label'>Project Title</label>
-                        <input type='text' name='title' onChange={this.handleChange}>
+                        <input id='form-input' type='text' name='title' onChange={this.handleChange}>
                         
                         </input>
                     </div>
                     <div className='form-input'>
                         <label className='form-label'>Project Description</label>
-                        <textarea type='textarea' name='description' onChange={this.handleChange}>
+                        <textarea id='form-text' type='textarea' name='description' onChange={this.handleChange}>
                         
                         </textarea>
                     </div>

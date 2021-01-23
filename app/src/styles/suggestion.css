@@ -5,4 +5,55 @@
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
   padding-bottom: 1%;
+  padding-top: 5px;
+  height: 260px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+label {
+  position: relative;
+  top: 1%;
+  color: #c72026;
+  font-size: 20px;
+  margin: 0;
+}
+
+.form-input {
+  margin-bottom: 2%;
+}
+
+.form-button {
+  float: right;
+  margin: 2%;
+  border: 2px solid #141943;
+  background-color: white;
+  color: #141943;
+  transition: background-color 0.5s;
+  width: 20%;
+  height: 30px;
+  font-size: 14px;
+}
+
+.form-button:hover {
+  background-color: #141943;
+  color: white;
+}
+
+input,
+textarea {
+  margin-left: 2%;
+  margin-top: 2%;
+  width: 80%;
+}
+
+input {
+  height: 20px;
+}
+
+textarea {
+  height: 40px;
+  resize: none;
 }
