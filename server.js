@@ -32,3 +32,9 @@ mDB.once('open',() => {
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
+
+io.on('connection', socket => {
+    socket.on('join-session',() =>{
+
+    });
+});
