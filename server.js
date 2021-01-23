@@ -25,5 +25,5 @@ mDB.once('open',() => {
 });
 
 app.listen(3001, () => {
-    console.log('Well you better go catch it');
+    console.log('Server running on port 3001');
 });
