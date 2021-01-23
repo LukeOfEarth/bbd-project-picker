@@ -1,35 +1,10 @@
 import React, {useState} from 'react';
 import Project from './project';
+import Suggestion from './suggestionForm';
 
 function ProjectsWrapper(){ //Made this a functional component so it can make use of Recoil Hooks for ease of access to data
     const [votes,setVotes] = useState(2); //This will be set by the admin, but for now it's 2
-
-    function getProjects(){
-        const projects = [
-            {
-                title:'Project Title',
-                desc:'Project Description',
-                name:'Project Proposer',
-            },
-            {
-                title:'Project Title',
-                desc:'Project Description',
-                name:'Project Proposer',
-            },
-            {
-                title:'Project Title',
-                desc:'Project Description',
-                name:'Project Proposer',
-            },
-            {
-                title:'Project Title',
-                desc:'Project Description',
-                name:'Project Proposer',
-            }
-        ];
-    
-        return projects;
-    }
+    const [projects,setProjects] = useState([]);
     
     function handleVote(){
         if(votes>0){
@@ -47,11 +22,19 @@ function ProjectsWrapper(){ //Made this a functional component so it can make us
         console.log(votes);
     }
 
+    function addNewProject(project){
+        setProjects([
+            ...projects,
+            project]
+        );
+    }
+
     return ( 
         <section>
-            {getProjects().map((project,index) =>
+            {projects.map((project,index) =>
                 <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
             )}
+            <Suggestion addNewProject={addNewProject}/>
         </section> 
     );
 }
