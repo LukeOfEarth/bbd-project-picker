@@ -1,10 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Project from './project';
 import Suggestion from './suggestionForm';
+import { useSocket } from '../contexts/socket-provider';
 
 function ProjectsWrapper(){ //Made this a functional component so it can make use of Recoil Hooks for ease of access to data
+    const socket = useSocket();
     const [votes,setVotes] = useState(2); //This will be set by the admin, but for now it's 2
     const [projects,setProjects] = useState([]);
+
+
+
+    // useEffect(() => {
+    //     if(socket == null) return;
+
+    //     socket.on('test',(test) => console.log(test));
+
+    //     socket.on('projects-updated', (projects) => {
+    //         setProjects(projects);
+    //         console.log(projects);
+    //     });
+    // },[socket]);
     
     function handleVote(){
         if(votes>0){
@@ -22,11 +37,18 @@ function ProjectsWrapper(){ //Made this a functional component so it can make us
         console.log(votes);
     }
 
-    function addNewProject(project){
-        setProjects([
+    const addNewProject = (project) => {
+        /*setProjects([
             ...projects,
             project]
-        );
+        );*/
+        const addition = {
+            project,
+            sessionId:0
+        }
+        socket.emit('test','test');
+        socket.emit('add-project',addition);
+        console.log('add called',addition);
     }
 
     return ( 

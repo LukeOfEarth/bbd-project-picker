@@ -6,10 +6,10 @@ const cors = require('cors');
 const http = require('http');
 const socket = require('socket.io');
 
-const {addProject} = require('./utils/sessions');
+const {addProject, getProjects} = require('./utils/sessions');
 
 const server = http.createServer(app);
-const io = socket(server);
+const io = socket(3001);
 
 dotenv.config();
 
@@ -31,16 +31,26 @@ mDB.once('open',() => {
     console.log('connected to mongoDB');
 });
 
-app.listen(3001, () => {
+/* server.listen(3001, () => {
     console.log('Server running on port 3001');
-});
+});*/
 
-io.on('connection', socket => {
-    socket.on('join-session',() =>{
+io.on('connection', (socket) => {
+    const id = socket.handshake.query.id;
+    console.log('new connection',id);
 
+    io.on('test', () => {
+        console.log('test');
     });
 
-    socket.on('add-project',(sessionId,project) => {
-        addProject(sessionId,project);
+    socket.on('add-project',addition => {
+        console.log('project received');
+        addProject(addition.sessionId,addition.project);
+        const projects = getProjects(sessionId);
+        socket.emit('projects-updated',projects);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
     });
 });
