@@ -9,7 +9,7 @@ const socket = require('socket.io');
 const {addProject, getProjects} = require('./utils/sessions');
 
 const server = http.createServer(app);
-const io = socket(3001);
+const io = socket(5000);
 
 dotenv.config();
 
