@@ -35,11 +35,16 @@ class JoinedSession extends React.Component {
     });
   }
 
+  onClick = () => {
+    this.props.history.push('/session');
+  }
+
   render() {
     return(
       <Container fluid ="md">
           <Row>
             <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
+            <button type='button' onClick={this.onClick}>Create a session</button>
             <Table hover>
                   <thead>
                     <tr>
