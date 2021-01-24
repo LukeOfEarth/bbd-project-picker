@@ -1,14 +1,32 @@
 import Project from './components/project';
-
-import logo from './logo.svg';
 import './App.css';
+import JoinedSession from './components/joinSession';
+import Header from './components/Common/header';
+import Footer from './components/Common/footer';
+import Navigation from './components/Common/navigation';
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
   return (
     <>
-    <Project data={{title:'Project Title', name:'Proposer Name', desc:'Project Description'}}/>
-    <Project data={{title:'Project Title', name:'Proposer Name', desc:'Project Description'}}/>
+    <Header/>
+    <Navigation/>
+    <BrowserRouter>
+        <Switch>
+          <Route path="/" component={JoinedSession} exact/>
+
+          <Route path="/project"  render = {() => <Project data={{title:'Project Title', name:'Proposer Name', desc:'Project Description'}}/>
+        
+        }/>
+        </Switch>
+    </BrowserRouter>
+    <Footer/>
     </>
   );
 }
