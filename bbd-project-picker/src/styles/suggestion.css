@@ -1,0 +1,59 @@
+.suggestion-form {
+  margin: 2%;
+  padding-left: 2%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
+  padding-bottom: 1%;
+  padding-top: 5px;
+  height: 260px;
+}
+
+.form-title {
+  margin-top: 0;
+}
+
+.form-label {
+  position: relative;
+  top: 1%;
+  color: #c72026;
+  font-size: 20px;
+  margin: 0;
+}
+
+.form-input {
+  margin-bottom: 2%;
+}
+
+.form-button {
+  float: right;
+  margin: 2%;
+  border: 2px solid #141943;
+  background-color: white;
+  color: #141943;
+  transition: background-color 0.5s;
+  width: 20%;
+  height: 30px;
+  font-size: 14px;
+}
+
+.form-button:hover {
+  background-color: #141943;
+  color: white;
+}
+
+#form-input,
+#form-text {
+  margin-left: 2%;
+  margin-top: 2%;
+  width: 80%;
+}
+
+#form-input {
+  height: 20px;
+}
+
+#form-text {
+  height: 40px;
+  resize: none;
+}

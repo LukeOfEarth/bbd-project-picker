@@ -1,0 +1,14 @@
+#header{
+    background-color: rgb(42, 233, 58);
+    box-shadow: 3px 3px 4px grey;
+    padding-bottom: 1%;
+    text-align: center;
+}
+.logo{
+    height: 50px;
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight: bold;
+}
