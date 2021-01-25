@@ -92,6 +92,9 @@ input[type=number] {
 button#inActive{
   background-color: #BD0000;
 }
+.error{
+  color: #BD0000;
+}
 .main_header.button_inline{
   display:flex;
   justify-content:center;

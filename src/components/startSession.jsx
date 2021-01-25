@@ -5,38 +5,63 @@ class StartSession extends Component {
     constructor(props){
       super(props);
       this.state = {
-        data: {
-          sessionName: '',
-          numberOfPeople: '',
-          numberOfTeams: '',
-          numberOfVotes: ''
-        },
+        data: {},
         errors: {}
       }
     }
-    onChange = (e) => {
+
+    handleValidation(){
+      let data = this.state.data;
+      let errors = {};
+      let formIsValid = true;
+  
+      //session_Name
+      if(!data["sessionName"]){
+        formIsValid = false;
+        errors["sessionName"] = "Please enter a session name";
+      }
+  
+      if(typeof data["sessionName"] !== "undefined"){
+        if(!data["sessionName"].match(/^[a-zA-Z]+$/)){
+          formIsValid = false;
+          errors["sessionName"] = "Only letters";
+        }      	
+      }  
+      
+      if(!data["numberOfPeople"]){
+        formIsValid = false;
+        errors["numberOfPeople"] = "Please enter a numberOfPeople";
+      }
+
+      if(!data["numberOfTeams"]){
+        formIsValid = false;
+        errors["numberOfTeams"] = "Please enter a numberOfTeams";
+      }
+
+      if(!data["numberOfVotes"]){
+        formIsValid = false;
+        errors["numberOfVotes"] = "Please enter a numberOfVotes";
+      }
+      this.setState({errors: errors});
+      return formIsValid;
+    }
+
+    handleChange(datas, e) {
+      let data = this.state.data;
+      data[datas] = e.target.value;
       this.setState({
-        data:  {...this.state.data, [e.target.name]: e.target.value}
-        
-      })
+        data
+      });
     }
 
     onCreateSession = (event) => {
-      const errors = this.validate(this.state.data);
-      this.setState({errors})
       event.preventDefault();
-      alert('Project picker Session created');
-      // this.props.history.push('/session');
-
-
-
-    }
-    validate = (data) => {
-      const errors = {};
-      if(!data.sessionName) errors.sessionName = '* Please enter session Name';
-      if(!data.numberOfPeople) errors.numberOfPeople = '* Please enter Number of people';
-      if(!data.numberOfTeams) errors.numberOfTeams = '* please enter number of teams';
-      if(!data.numberOfVotes) errors.numberOfVotes = '* Please enter number of votes';
+      if(this.handleValidation()){
+        alert('Project picker Session created');
+        this.props.history.push('/session');
+      }else{
+        alert("Form has errors.")
+      }
     }
 
     onClick = () => {
@@ -62,10 +87,11 @@ class StartSession extends Component {
                             className='form_session'
                             id='session_id'
                             placeholder='Enter session name'
-                            name='sessionName'
-                            onChange= {this.onChange}
-                            required
+                            ref='sessionName'
+                            onChange= {this.handleChange.bind(this, "sessionName")}
+                            value={this.state.data["sessionName"]}
                           />
+                          <span className="error">{this.state.errors["sessionName"]}</span>
                       </div>
 
                       <div className='main_header'>
@@ -77,10 +103,11 @@ class StartSession extends Component {
                             className='form_session'
                             id='num_id'
                             placeholder='Enter Number of People'
-                            name='numberOfPeople'
-                            onChange= {this.onChange}
-                            required
+                            ref='numberOfPeople'
+                            onChange= {this.handleChange.bind(this, "numberOfPeople")}
                           />
+                          <span className="error">{this.state.errors["numberOfPeople"]}</span>
+
                       </div>
 
                       <div className='main_header'>
@@ -92,10 +119,10 @@ class StartSession extends Component {
                             className='form_session'
                             id='teams_id'
                             placeholder='Enter Number of Teams'
-                            name='numberOfTeams'
-                            onChange= {this.onChange}
-                            required
+                            ref='numberOfTeams'
+                            onChange= {this.handleChange.bind(this, "numberOfTeams")}
                           />
+                          <span className="error">{this.state.errors["numberOfTeams"]}</span>
                       </div>
 
                       <div className='main_header'>
@@ -107,10 +134,10 @@ class StartSession extends Component {
                             className='form_session'
                             id='vote_id'
                             placeholder='Enter Number Of Votes'
-                            name='numberOfVotes'
-                            onChange= {this.onChange}
-                            required
+                            ref='numberOfVotes'
+                            onChange= {this.handleChange.bind(this, "numberOfVotes")}
                           />
+                          <span className="error">{this.state.errors["numberOfVotes"]}</span>
                     </div>
                     <div className='main_header button_inline'>
                       <button className='btn_sub' type="submit">Create</button>
