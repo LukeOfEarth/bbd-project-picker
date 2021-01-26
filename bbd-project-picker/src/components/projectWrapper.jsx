@@ -6,6 +6,9 @@ import {useSocket} from '../contexts/socket-provider';
 function ProjectsWrapper(){
     const [projects,setProjects] = useState([]);
     const [votes,setVotes] = useState(2);
+    const [sessionActive,setSessionActive] = useState(true);
+    const [finalProjects,setFinalProjects] = useState([]);
+    const [maxFinalists,setMaxFinalists] = useState(2);
     const socket = useSocket();
 
     function addNewProject(project){
@@ -17,6 +20,14 @@ function ProjectsWrapper(){
 
         socket.on('updated-projects',(projects) => {
             setProjects(projects);
+        });
+
+        socket.on('session-ended',() => {
+            let tempProjects = projects;
+            tempProjects.sort(({votes:a},{votes:b}) => b-a);
+            const finalists = tempProjects.slice(0,maxFinalists);
+            setFinalProjects(finalists);
+            setSessionActive(false);
         });
 
         socket.emit('get-projects');
@@ -44,14 +55,30 @@ function ProjectsWrapper(){
         socket.emit('vote-removed',0,projectId);
     }
 
-    return (
-        <>
-            {projects.map((project,index) =>
-                <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
-            )}
-            <Suggestion addNewProject={addNewProject}></Suggestion>
-        </>
-    )
+    function endSession(){
+        socket.emit('session-ended');
+    }
+
+    if(sessionActive){
+        return (
+            <>
+                {projects.map((project,index) =>
+                    <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
+                )}
+                <Suggestion addNewProject={addNewProject}></Suggestion>
+                <button onClick={() => socket.emit('session-ended')}>End Session</button>
+            </>
+        )
+    } else{
+        return (
+            <>
+                {finalProjects.map((project,index) =>
+                    <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
+                )}
+            </>
+        )
+    }
+
 }
  
 export default ProjectsWrapper;

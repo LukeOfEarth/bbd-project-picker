@@ -54,6 +54,11 @@ io.on('connection', (socket) => {
       socket.emit('updated-projects',projectList);
       socket.broadcast.emit('updated-projects',projectList);
     });
+
+    socket.on('session-ended', () => {
+      socket.emit('session-ended');
+      socket.broadcast.emit('session-ended');
+    });
 });
 
 http.listen(port);
