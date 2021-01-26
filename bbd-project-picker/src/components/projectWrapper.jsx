@@ -24,10 +24,12 @@ function ProjectsWrapper(){
         return () => socket.off('project-updated');
     },[socket,addNewProject]);
 
-    function handleVote(){
+    function handleVote(projectId){
         if(votes>0){
             setVotes((votes-1));
             console.log(votes);
+
+            socket.emit('vote-added',{sessionId:0,[projectId]:projectId});
             return true;
         } else{
             console.log('no votes left');
@@ -35,14 +37,16 @@ function ProjectsWrapper(){
         }
     }
     
-    function handleVoteRemoved(){
+    function handleVoteRemoved(projectId){
         setVotes(votes+1);
         console.log(votes);
-    }
 
+        socket.emit('vote-removed',{sessionId:0,[projectId]:projectId});
+    }
 
     return (
         <>
+            {/* {console.log(projects)} */}
             {projects.map((project,index) =>
                 <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
             )}

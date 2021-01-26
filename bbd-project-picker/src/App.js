@@ -1,5 +1,4 @@
 import ProjectsWrapper from './components/projectWrapper';
-import Session from './components/projectSession';
 import './App.css';
 import JoinedSession from './components/joinSession';
 import StartSession from './components/startSession';

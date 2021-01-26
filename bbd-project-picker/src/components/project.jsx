@@ -13,6 +13,12 @@ class Project extends Component {
 
     setVote = () => {
         this.setState({votedFor:(!this.state.votedFor)});
+
+        if(this.state.votedFor){
+            this.props.handleVoteRemoved(this.props.data.projectId);
+        } else{
+            this.props.handleVote(this.props.data.projectId);
+        }
     }
 
     render() { 

@@ -1,4 +1,5 @@
 const sessionUtil = require('./utils/sessions');
+const votesUtil = require('./utils/votes');
 
 const express = require('express');
 const app = express();
@@ -16,6 +17,8 @@ sessionUtil.addSession({
   id:0
 });
 
+console.log(sessionUtil.sessions);
+
 io.on('connection', (socket) => {
 
     socket.on('get-projects', () => {
@@ -31,7 +34,33 @@ io.on('connection', (socket) => {
       socket.emit('updated-projects',projectList);
       socket.broadcast.emit('updated-projects',projectList);
       console.log('project added');
-  });
+      console.log(sessionUtil.sessions);
+    });
+
+    socket.on('vote-added', (sessionId,projectId) => {
+      console.log('vote called:'+sessionId+':'+projectId);
+      console.log(votesUtil.addVote(sessionId,projectId));
+      /*
+      const projectList = sessionUtil.getProjects(sessionId);
+
+      socket.emit('updated-projects',projectList);
+      socket.broadcast.emit('updated-projects',projectList);
+      console.log('vote added');
+      */
+    });
+
+    socket.on('vote-removed', (sessionId,projectId) => {
+      console.log('vote remove called:');
+      /*
+      votesUtil.removeVote(sessionId,projectId);
+
+      const projectList = sessionUtil.getProjects(sessionId);
+
+      socket.emit('updated-projects',projectList);
+      socket.broadcast.emit('updated-projects',projectList);
+      console.log('vote removed');
+      */
+    });
 });
 
 http.listen(port);
