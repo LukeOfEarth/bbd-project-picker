@@ -33,6 +33,7 @@ class StartSession extends Component {
         errors["numberOfPeople"] = "Please enter a numberOfPeople";
       }
 
+
       if(!data["numberOfTeams"]){
         formIsValid = false;
         errors["numberOfTeams"] = "Please enter a numberOfTeams";
@@ -58,7 +59,7 @@ class StartSession extends Component {
       event.preventDefault();
       if(this.handleValidation()){
         alert('Project picker Session created');
-        this.props.history.push('/session');
+        this.props.history.push('/');
       }else{
         alert("Form has errors.")
       }
