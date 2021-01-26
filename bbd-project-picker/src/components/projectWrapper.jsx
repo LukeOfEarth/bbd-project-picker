@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback } from 'react';
 import Suggestion from './suggestionForm';
 import Project from './project';
+import Finalist from './finalist';
 import {useSocket} from '../contexts/socket-provider';
 
 function ProjectsWrapper(){
@@ -72,8 +73,9 @@ function ProjectsWrapper(){
     } else{
         return (
             <>
+                <h2>Winning Projects</h2>
                 {finalProjects.map((project,index) =>
-                    <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
+                    <Finalist data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
                 )}
             </>
         )
