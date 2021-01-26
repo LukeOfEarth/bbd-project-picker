@@ -8,6 +8,7 @@ class Project extends Component {
         super(props);
         this.state = { 
             votedFor:false,
+            projectId:this.props.data.projectId
         }
     }
 
@@ -15,9 +16,9 @@ class Project extends Component {
         this.setState({votedFor:(!this.state.votedFor)});
 
         if(this.state.votedFor){
-            this.props.handleVoteRemoved(this.props.data.projectId);
+            this.props.handleVoteRemoved(this.state.projectId);
         } else{
-            this.props.handleVote(this.props.data.projectId);
+            this.props.handleVote(this.state.projectId);
         }
     }
 

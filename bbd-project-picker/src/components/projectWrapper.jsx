@@ -29,7 +29,7 @@ function ProjectsWrapper(){
             setVotes((votes-1));
             console.log(votes);
 
-            socket.emit('vote-added',{sessionId:0,[projectId]:projectId});
+            socket.emit('vote-added',0,projectId);
             return true;
         } else{
             console.log('no votes left');
@@ -41,12 +41,11 @@ function ProjectsWrapper(){
         setVotes(votes+1);
         console.log(votes);
 
-        socket.emit('vote-removed',{sessionId:0,[projectId]:projectId});
+        socket.emit('vote-removed',0,projectId);
     }
 
     return (
         <>
-            {/* {console.log(projects)} */}
             {projects.map((project,index) =>
                 <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
             )}
