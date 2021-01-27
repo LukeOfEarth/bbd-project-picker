@@ -56,10 +56,6 @@ function ProjectsWrapper(){
         socket.emit('vote-removed',0,projectId);
     }
 
-    function endSession(){
-        socket.emit('session-ended');
-    }
-
     if(sessionActive){
         return (
             <>

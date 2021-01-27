@@ -20,7 +20,6 @@ function StartSession() {
 
     const onCreateSession = (event) => {
       event.preventDefault();
-      alert('Project picker Session created');
       socket.emit('session-created', data);
       setData({
         data: {

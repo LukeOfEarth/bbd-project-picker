@@ -12,12 +12,11 @@ import {
   Route
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form } from 'react-bootstrap';
 
 
 function App() {
   return (
-    <SocketProvider id={0}>
+    <SocketProvider id={null}>
       <Header />
       <Navigation />
       <BrowserRouter>

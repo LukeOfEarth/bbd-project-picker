@@ -13,19 +13,10 @@ const io = require('socket.io')(http, {
     }
   });
 
-// sessionUtil.addSession({
-//   id:0
-// });
-
-
-
-//console.log(sessionUtil.sessions);
-
 io.on('connection', (socket) => {
 
   socket.on('session-created', (data) => {
     sessionUtil.addSession(data);
-    console.log('session-created', sessionUtil.sessions);
   });
 
     socket.on('get-sessions', () => {
@@ -44,8 +35,6 @@ io.on('connection', (socket) => {
 
       socket.emit('updated-projects',projectList);
       socket.broadcast.emit('updated-projects',projectList);
-
-      console.log(sessionUtil.sessions);
     });
 
     socket.on('vote-added', (sessionId,projectId) => {
