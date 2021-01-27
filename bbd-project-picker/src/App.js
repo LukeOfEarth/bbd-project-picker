@@ -3,8 +3,9 @@ import './App.css';
 import JoinedSession from './components/joinSession';
 import StartSession from './components/startSession';
 import Header from './components/Common/header';
-import {SocketProvider} from './contexts/socket-provider';
+import { SocketProvider } from './contexts/socket-provider';
 import Navigation from './components/Common/navigation';
+import Login from './components/login'
 import {
   BrowserRouter,
   Switch,
@@ -17,18 +18,21 @@ import { Form } from 'react-bootstrap';
 function App() {
   return (
     <SocketProvider id={0}>
-      <Header/>
-      <Navigation/>
+      <Header />
+      <Navigation />
       <BrowserRouter>
-          <Switch>
-            <Route path="/" component={JoinedSession} exact/>
+        <Switch>
 
-            <Route path="/session" component={StartSession} />
+          <Login path="/login" component={Login} />
 
-            <Route path="/project"  render = {() => <ProjectsWrapper/>
-          
-          }/>
-          </Switch>
+          <Route path="/" component={JoinedSession} exact />
+
+          <Route path="/session" component={StartSession} />
+
+          <Route path="/project" render={() => <ProjectsWrapper />
+
+          } />
+        </Switch>
       </BrowserRouter>
       {/* <Footer/> */}
     </SocketProvider>
