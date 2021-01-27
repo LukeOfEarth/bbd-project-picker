@@ -1,10 +1,22 @@
 let sessions = [];
 
 function addSession(sessionInfo){
+    let newId;
+    if(sessions.length){
+        newId = sessions.length;
+    }else{
+        newId = 0;
+    }
+
     sessions.push({
         ...sessionInfo,
-        projects:[]
+        projects:[],
+        id: newId,
+        isActive: 'true',
+        join: 'true'
     });
+
+
 }
 
 function getProjects(sessionId){

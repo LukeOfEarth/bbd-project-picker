@@ -1,49 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import '../styles/startSession.css';
 
-class StartSession extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
+import { useHistory } from "react-router";
+import {useSocket} from '../contexts/socket-provider';
+ 
+function StartSession() {
+
+    const history = useHistory();
+    const [data, setData] = useState({ });
+
+    const socket = useSocket();
+
+
+    const onChange = (e) => {
+      setData({
+         ...data, [e.target.name]: e.target.value 
+      })
+    }
+
+    const onCreateSession = (event) => {
+      event.preventDefault();
+      alert('Project picker Session created');
+      socket.emit('session-created', data);
+      setData({
         data: {
           sessionName: '',
           numberOfPeople: '',
           numberOfTeams: '',
           numberOfVotes: ''
-        },
-        errors: {}
-      }
-    }
-    onChange = (e) => {
-      this.setState({
-        data:  {...this.state.data, [e.target.name]: e.target.value}
-        
-      })
-    }
-
-    onCreateSession = (event) => {
-      const errors = this.validate(this.state.data);
-      this.setState({errors})
-      event.preventDefault();
-      alert('Project picker Session created');
-      // this.props.history.push('/session');
-
-
+        }
+      });
+      
+      history.push('/');
 
     }
-    validate = (data) => {
-      const errors = {};
-      if(!data.sessionName) errors.sessionName = '* Please enter session Name';
-      if(!data.numberOfPeople) errors.numberOfPeople = '* Please enter Number of people';
-      if(!data.numberOfTeams) errors.numberOfTeams = '* please enter number of teams';
-      if(!data.numberOfVotes) errors.numberOfVotes = '* Please enter number of votes';
-    }
 
-    onClick = () => {
-      this.props.history.push('/');
+    const onClick = () => {
+      history.push('/');
     };
 
-    render() { 
 
         return ( 
             <div className='start_session'>
@@ -51,7 +46,7 @@ class StartSession extends Component {
                 <div className='session_header'>
                   create a New Session
                 </div>
-                <form autoComplete='off' className='main_form' onSubmit={this.onCreateSession}>
+                <form autoComplete='off' className='main_form' onSubmit={onCreateSession}>
 
                     <div className='main_header'>
                         <label htmlFor="session_input">
@@ -63,7 +58,7 @@ class StartSession extends Component {
                             id='session_id'
                             placeholder='Enter session name'
                             name='sessionName'
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required
                           />
                       </div>
@@ -78,7 +73,7 @@ class StartSession extends Component {
                             id='num_id'
                             placeholder='Enter Number of People'
                             name='numberOfPeople'
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required
                           />
                       </div>
@@ -93,7 +88,7 @@ class StartSession extends Component {
                             id='teams_id'
                             placeholder='Enter Number of Teams'
                             name='numberOfTeams'
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required
                           />
                       </div>
@@ -108,19 +103,18 @@ class StartSession extends Component {
                             id='vote_id'
                             placeholder='Enter Number Of Votes'
                             name='numberOfVotes'
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required
                           />
                     </div>
                     <div className='main_header button_inline'>
                       <button className='btn_sub' type="submit">Create</button>
-                      <button className='btn_sub' id='inActive' type="cancel" onClick= {this.onClick}>Cancel</button>
+                      <button className='btn_sub' id='inActive' type="cancel" onClick= {onClick}>Cancel</button>
                     </div>
                 </form>
              </div>
             </div>
         );
-    }
 }
  
 export default StartSession;

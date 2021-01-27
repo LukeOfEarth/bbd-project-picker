@@ -13,13 +13,24 @@ const io = require('socket.io')(http, {
     }
   });
 
-sessionUtil.addSession({
-  id:0
-});
+// sessionUtil.addSession({
+//   id:0
+// });
 
-console.log(sessionUtil.sessions);
+
+
+//console.log(sessionUtil.sessions);
 
 io.on('connection', (socket) => {
+
+  socket.on('session-created', (data) => {
+    sessionUtil.addSession(data);
+    console.log('session-created', sessionUtil.sessions);
+  });
+
+    socket.on('get-sessions', () => {
+        socket.emit('updated-sessions',sessionUtil.sessions);
+    });
 
     socket.on('get-projects', () => {
         socket.emit('updated-projects',sessionUtil.getProjects(0));
