@@ -14,20 +14,22 @@ const io = require('socket.io')(http, {
   });
 
 io.on('connection', (socket) => {
-
+    console.log('new connection')
     const id = socket.handshake.query.id;
     socket.join(id);
 
-    console.log(socket.rooms);
-
-    socket.on('join-session', (sessionId) => {
+    socket.on('join-session', (sessionId,leaveRoom) => {
+      console.log('join session',sessionId,leaveRoom);
+      socket.leave(leaveRoom);
       socket.join(sessionId);
       socket.emit('session-joined',sessionId);
+      console.log(socket.rooms);
     });
+
+    console.log(socket.rooms);
 
     socket.on('session-created', (data) => {
       sessionUtil.addSession(data);
-      console.log(sessionUtil.sessions)
     });
 
     socket.on('get-sessions', () => {

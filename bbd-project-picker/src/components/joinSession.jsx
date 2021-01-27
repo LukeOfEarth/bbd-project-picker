@@ -49,6 +49,10 @@ function JoinedSession(props) {
 
   function joinSession(e){
     props.onSessionEntered(e.target.id);
+    console.log(e.target.id);
+    localStorage.setItem('old-room',localStorage.getItem('room'));
+    localStorage.setItem('room',e.target.id);
+    socket.emit('join-session',e.target.id,localStorage.getItem('old-room'));
   }
 
     return(

@@ -16,17 +16,14 @@ import { useRecoilState } from 'recoil';
 import { session_id } from './shared/global-state';
 
 function App() {
-  const [sessionId,setSessionId] = useRecoilState(session_id);
+  let sessionId = localStorage.getItem('room');
 
   function onSessionEntered(id){
-    console.log('onSessionEntered called with id of: '+id);
-    setSessionId(id);
-    console.log(sessionId);
+    sessionId = id;
   }
 
   return (
     <SocketProvider id={sessionId}>
-      {console.log(sessionId)}
       <Header />
       <Navigation />
       <BrowserRouter>
