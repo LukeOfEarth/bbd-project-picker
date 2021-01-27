@@ -12,11 +12,21 @@ import {
   Route
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useRecoilState } from 'recoil';
+import { session_id } from './shared/global-state';
 
 function App() {
+  const [sessionId,setSessionId] = useRecoilState(session_id);
+
+  function onSessionEntered(id){
+    console.log('onSessionEntered called with id of: '+id);
+    setSessionId(id);
+    console.log(sessionId);
+  }
+
   return (
-    <SocketProvider id={null}>
+    <SocketProvider id={sessionId}>
+      {console.log(sessionId)}
       <Header />
       <Navigation />
       <BrowserRouter>
@@ -24,11 +34,11 @@ function App() {
 
           <Login path="/login" component={Login} />
 
-          <Route path="/" component={JoinedSession} exact />
+          <Route path="/" component={() => <JoinedSession onSessionEntered={onSessionEntered}/>}  exact />
 
-          <Route path="/session" component={StartSession} />
+          <Route path="/session" component={StartSession}/>
 
-          <Route path="/project" render={() => <ProjectsWrapper />
+          <Route path="/project" render={() => <ProjectsWrapper sessionId={session_id}/>
 
           } />
         </Switch>

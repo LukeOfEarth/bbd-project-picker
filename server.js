@@ -15,16 +15,27 @@ const io = require('socket.io')(http, {
 
 io.on('connection', (socket) => {
 
-  socket.on('session-created', (data) => {
-    sessionUtil.addSession(data);
-  });
+    const id = socket.handshake.query.id;
+    socket.join(id);
+
+    console.log(socket.rooms);
+
+    socket.on('join-session', (sessionId) => {
+      socket.join(sessionId);
+      socket.emit('session-joined',sessionId);
+    });
+
+    socket.on('session-created', (data) => {
+      sessionUtil.addSession(data);
+      console.log(sessionUtil.sessions)
+    });
 
     socket.on('get-sessions', () => {
         socket.emit('updated-sessions',sessionUtil.sessions);
     });
 
     socket.on('get-projects', () => {
-        socket.emit('updated-projects',sessionUtil.getProjects(0));
+       // socket.emit('updated-projects',sessionUtil.getProjects(0));
     });
 
     socket.on('add-project', (project) => {

@@ -15,7 +15,6 @@ export function SocketProvider({id,children}){
             query:{id}
         });
         setSocket(newSocket);
-        newSocket.emit('test','test');
         return () => newSocket.close();
     },[id]);
 

@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 
 import {useSocket} from '../contexts/socket-provider';
 
-function JoinedSession() {
+function JoinedSession(props) {
 
   const history = useHistory();
 
@@ -15,13 +15,22 @@ function JoinedSession() {
 
   useEffect(() => {
     if(socket === undefined) return;
+
     socket.on('updated-sessions', (sessions) => {
       setSessions(sessions);
     })
+
+    socket.on('session-joined', (sessionId) => {
+      props.onSessionEntered(sessionId);
+    });
+
     socket.emit('get-sessions');
 
-    return () => socket.off('updated-sessions');
-},[socket]); 
+    return () => {
+      socket.off('updated-sessions');
+      socket.off('session-joined');
+    }
+},[socket,joinSession]); 
   
   const handleActive =(sessionId) => {
     const index = sessions.findIndex((session) => session.sessionId === sessionId);
@@ -38,6 +47,10 @@ function JoinedSession() {
     history.push('/session');
   }
 
+  function joinSession(e){
+    props.onSessionEntered(e.target.id);
+  }
+
     return(
       <Container fluid ="md">
           <Row>
@@ -52,10 +65,10 @@ function JoinedSession() {
                     </tr>
                   </thead>
                   <tbody>
-                    {sessions.map(sessions=>
-                      <tr key={sessions.sessionId}>
-                      <td>{sessions.sessionName}</td>
-                      <td><Button variant={sessions.isActive?"success":"secondary"}>Join</Button></td>
+                    {sessions.map(session=>
+                      <tr key={session.sessionId}>
+                      <td>{session.sessionName}</td>
+                      <td><Button variant={session.isActive?"success":"secondary"} id={session.id} onClick={joinSession}>Join</Button></td>
                       {/* <td><Button variant={sessions.isActive?"success":"danger"} onClick={() => handleActive(sessions.sessionId)}>{sessions.isActive?'Active':'Inactive'}</Button></td> */}
                     </tr>
                       )}

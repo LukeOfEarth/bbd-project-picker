@@ -3,14 +3,18 @@ import Suggestion from './suggestionForm';
 import Project from './project';
 import Finalist from './finalist';
 import {useSocket} from '../contexts/socket-provider';
+import {useRecoilValue} from 'recoil';
+// import { session_id } from '../shared/global-state';
 
-function ProjectsWrapper(){
+function ProjectsWrapper(props){
+    const [sessionId,setSessionId] = useState(props.session_id);
     const [projects,setProjects] = useState([]);
     const [votes,setVotes] = useState(2);
     const [sessionActive,setSessionActive] = useState(true);
     const [finalProjects,setFinalProjects] = useState([]);
     const [maxFinalists,setMaxFinalists] = useState(2);
     const socket = useSocket();
+    // const socket_id = useRecoilValue(session_id)
 
     function addNewProject(project){
         socket.emit('add-project',project);
@@ -18,6 +22,7 @@ function ProjectsWrapper(){
 
     useEffect(() => {
         if(socket === undefined) return;
+        console.log(sessionId);
 
         socket.on('updated-projects',(projects) => {
             setProjects(projects);
@@ -62,6 +67,7 @@ function ProjectsWrapper(){
                 {projects.map((project,index) =>
                     <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
                 )}
+                {console.log(sessionId)}
                 <Suggestion addNewProject={addNewProject}></Suggestion>
                 <button onClick={() => socket.emit('session-ended')}>End Session</button>
             </>

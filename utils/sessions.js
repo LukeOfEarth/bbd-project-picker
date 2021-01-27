@@ -4,6 +4,7 @@ function addSession(sessionInfo){
     let newId;
     if(sessions.length){
         newId = sessions.length;
+        //TODO: Fix this so it sets to current highest index +1
     }else{
         newId = 0;
     }
@@ -14,6 +15,7 @@ function addSession(sessionInfo){
         id: newId,
         isActive: 'true',
         join: 'true'
+        //TODO: Fix this so it uses actual boolean values
     });
 
 
@@ -33,6 +35,7 @@ function addProject(sessionId,project){
 
     if(sessions[sessionId].projects.length){
         newId = sessions[sessionId].projects.length;
+        //TODO: Fix this so it sets to current highest index +1
     }else{
         newId = 0;
     }
