@@ -9,7 +9,7 @@ export function useSocket(){
 
 export function SocketProvider({id,children}){
     console.log(id);
-    const [sessionId, setSessionId] = useState(id);
+    const [sessionId] = useState(id);
     const [socket, setSocket] = useState();
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export function SocketProvider({id,children}){
         });
         setSocket(newSocket);
         return () => newSocket.close();
-    },[sessionId]);
+    },[id,sessionId]);
 
     return(    
         <SocketContext.Provider value={socket}>

@@ -24,6 +24,7 @@ function App() {
 
   return (
     <SocketProvider id={sessionId}>
+      {console.log(sessionId)}
       <Header />
       <Navigation />
       <BrowserRouter>
@@ -35,7 +36,7 @@ function App() {
 
           <Route path="/session" component={StartSession}/>
 
-          <Route path="/project" render={() => <ProjectsWrapper sessionId={session_id}/>
+          <Route path="/project" render={() => <ProjectsWrapper sessionId={sessionId}/>
 
           } />
         </Switch>

@@ -3,26 +3,22 @@ import Suggestion from './suggestionForm';
 import Project from './project';
 import Finalist from './finalist';
 import {useSocket} from '../contexts/socket-provider';
-import {useRecoilValue} from 'recoil';
-// import { session_id } from '../shared/global-state';
 
 function ProjectsWrapper(props){
-    const [sessionId,setSessionId] = useState(props.session_id);
+    const [sessionId,setSessionId] = useState(props.sessionId);
     const [projects,setProjects] = useState([]);
     const [votes,setVotes] = useState(2);
     const [sessionActive,setSessionActive] = useState(true);
     const [finalProjects,setFinalProjects] = useState([]);
     const [maxFinalists,setMaxFinalists] = useState(2);
     const socket = useSocket();
-    // const socket_id = useRecoilValue(session_id)
 
     function addNewProject(project){
-        socket.emit('add-project',project);
+        socket.emit('add-project',sessionId,project);
     }
 
     useEffect(() => {
         if(socket === undefined) return;
-        console.log(sessionId);
 
         socket.on('updated-projects',(projects) => {
             setProjects(projects);
@@ -36,7 +32,9 @@ function ProjectsWrapper(props){
             setSessionActive(false);
         });
 
-        socket.emit('get-projects');
+        if(sessionActive){
+            socket.emit('get-projects',sessionId);
+        }
 
         return () => socket.off('project-updated');
     },[socket,addNewProject]);
@@ -46,7 +44,7 @@ function ProjectsWrapper(props){
             setVotes((votes-1));
             console.log(votes);
 
-            socket.emit('vote-added',0,projectId);
+            socket.emit('vote-added',sessionId,projectId);
             return true;
         } else{
             console.log('no votes left');
@@ -58,7 +56,7 @@ function ProjectsWrapper(props){
         setVotes(votes+1);
         console.log(votes);
 
-        socket.emit('vote-removed',0,projectId);
+        socket.emit('vote-removed',sessionId,projectId);
     }
 
     if(sessionActive){
@@ -67,9 +65,8 @@ function ProjectsWrapper(props){
                 {projects.map((project,index) =>
                     <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
                 )}
-                {console.log(sessionId)}
                 <Suggestion addNewProject={addNewProject}></Suggestion>
-                <button onClick={() => socket.emit('session-ended')}>End Session</button>
+                <button onClick={() => socket.emit('session-ended',sessionId)}>End Session</button>
             </>
         )
     } else{
