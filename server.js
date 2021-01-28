@@ -17,11 +17,9 @@ io.on('connection', (socket) => {
     const id = socket.handshake.query.id;
     socket.join(id);
 
-    socket.on('join-session', (sessionId,leaveRoom) => {
-      socket.leave(leaveRoom);
+    socket.on('join-session', (sessionId) => {
       socket.join(sessionId);
       socket.emit('session-joined',sessionId);
-      // console.log(socket.rooms);
     });
 
     socket.on('session-created', (data) => {
@@ -31,10 +29,6 @@ io.on('connection', (socket) => {
     socket.on('get-sessions', () => {
         socket.emit('updated-sessions',sessionUtil.sessions);
     });
-
-    socket.on('left-session',(sessionId) => {
-      socket.leave(sessionId);
-    })
 
     socket.on('get-projects', (sessionId) => {
       socket.emit('updated-projects',sessionUtil.getProjects(sessionId));

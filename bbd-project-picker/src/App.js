@@ -1,5 +1,5 @@
-import ProjectsWrapper from './components/projectWrapper';
 import './App.css';
+import Room from './components/room'
 import JoinedSession from './components/joinSession';
 import StartSession from './components/startSession';
 import Header from './components/Common/header';
@@ -12,11 +12,9 @@ import {
   Route
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useRecoilState } from 'recoil';
-import { session_id } from './shared/global-state';
 
 function App() {
-  let sessionId = localStorage.getItem('room');
+  let sessionId = null;
 
   function onSessionEntered(id){
     sessionId = id;
@@ -36,7 +34,7 @@ function App() {
 
           <Route path="/session" component={StartSession}/>
 
-          <Route path="/project" render={() => <ProjectsWrapper sessionId={sessionId}/>
+          <Route path="/project" render={() => <Room/>
 
           } />
         </Switch>

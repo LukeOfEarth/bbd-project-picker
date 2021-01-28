@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
 import {Table,Button, Container,Row} from 'react-bootstrap';
 import { useHistory } from "react-router";
-
 import {useSocket} from '../contexts/socket-provider';
 
 function JoinedSession(props) {
-
   const history = useHistory();
-
   const [sessions, setSessions] = useState([]);
-
   const socket = useSocket();
 
   useEffect(() => {
@@ -26,10 +21,6 @@ function JoinedSession(props) {
 
       socket.emit('get-sessions');
 
-      const room = localStorage.getItem('room');
-
-      socket.emit('left-session',room);
-
       return () => {
         socket.off('updated-sessions');
         socket.off('session-joined');
@@ -40,13 +31,11 @@ function JoinedSession(props) {
     history.push('/session');
   }
 
-  function joinSession(e){
-    props.onSessionEntered(e.target.id);
-    console.log(e.target.id);
-    localStorage.setItem('old-room',localStorage.getItem('room'));
-    localStorage.setItem('room',e.target.id);
-    socket.emit('join-session',e.target.id,localStorage.getItem('old-room'));
-    history.push('/project');
+  function joinSession(e){    
+    const newRoom = e.target.id;
+    props.onSessionEntered(newRoom);
+    socket.emit('join-session',newRoom);
+    history.push('/project?room='+newRoom);
   }
 
   return(

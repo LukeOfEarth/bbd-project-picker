@@ -8,7 +8,6 @@ export function useSocket(){
 }
 
 export function SocketProvider({id,children}){
-    console.log(id);
     const [sessionId] = useState(id);
     const [socket, setSocket] = useState();
 

@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect } from 'react';
 import Suggestion from './suggestionForm';
 import Project from './project';
 import Finalist from './finalist';
 import {useSocket} from '../contexts/socket-provider';
+import {Link} from 'react-router-dom';
 
 function ProjectsWrapper(props){
     const [sessionId,setSessionId] = useState(props.sessionId);
@@ -57,6 +58,12 @@ function ProjectsWrapper(props){
         console.log(votes);
 
         socket.emit('vote-removed',sessionId,projectId);
+    }
+
+    if(projects === null){
+        return(
+            <h2>You are not in a live session! Please <Link to="/">join a session</Link></h2>
+        );
     }
 
     if(sessionActive){

@@ -1,12 +1,7 @@
 import React from "react";
-
 import { Navbar, Nav } from 'react-bootstrap'
-import { NavLink } from "react-router-dom";
 import { FaUserLock } from 'react-icons/fa';
-
-
 class Navigation extends React.Component {
-
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -14,7 +9,6 @@ class Navigation extends React.Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/project">Projects</Nav.Link>
                         <Nav.Link href="/session">Add new Session</Nav.Link>
                     </Nav>
                     <Nav>
