@@ -1,7 +1,11 @@
 import React, {useState, useEffect } from 'react';
 import Suggestion from './suggestionForm';
+import {Button} from 'react-bootstrap';
 import Project from './project';
 import Finalist from './finalist';
+import '../styles/suggestion.css';
+
+
 import {useSocket} from '../contexts/socket-provider';
 import {Link} from 'react-router-dom';
 
@@ -84,7 +88,9 @@ function ProjectsWrapper(props){
                         <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
                     )}
                     <Suggestion addNewProject={addNewProject}></Suggestion>
-                    <button onClick={() => socket.emit('session-ended',sessionId)}>End Session</button>
+                    <div className="endsession">
+                    <Button type="button" className="btn-danger" onClick={() => socket.emit('session-ended')}>End Session</Button>
+                    </div>
                 </>
             )
         }

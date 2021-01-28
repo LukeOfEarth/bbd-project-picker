@@ -33,12 +33,8 @@ function StartSession() {
     });
     
     history.push('/list');
-
   }
 
-  const onClick = () => {
-    history.push('/list');
-  };
 
 
   return ( 
@@ -110,7 +106,7 @@ function StartSession() {
               </div>
               <div className='main_header button_inline'>
                 <button className='btn_sub' type="submit">Create</button>
-                <button className='btn_sub' id='inActive' type="cancel" onClick= {onClick}>Cancel</button>
+                <button className='btn_sub' id='inActive' type="cancel" onClick= {onCreateSession}>Cancel</button>
               </div>
           </form>
         </div>

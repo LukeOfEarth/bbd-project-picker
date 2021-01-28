@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import {Table,Button, Container,Row} from 'react-bootstrap';
 import { useHistory } from "react-router";
 import {useSocket} from '../contexts/socket-provider';
 import {clearLocalStorage} from '../shared/clear-cache';
+
 
 function JoinedSession(props) {
   clearLocalStorage();
@@ -23,42 +26,54 @@ function JoinedSession(props) {
       });
 
       socket.emit('get-sessions');
-
+      console.log(sessions);
       return () => {
         socket.off('updated-sessions');
         socket.off('session-joined');
       }
-    },[socket,joinSession]); 
-
-  const onSubmit = () => {
-    history.push('/session');
-  }
-
-  function joinSession(e){    
+    },[socket,joinSession]);
+    
+  function joinSession(e){
     const newRoom = e.target.id;
+
     props.onSessionEntered(newRoom);
     socket.emit('join-session',newRoom);
     history.push('/project?room='+newRoom);
   }
 
-  return(
-    <Container fluid ="md">
-        <Row>
-          <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
-          <button type='button' onClick={onSubmit}>Create a session</button>
-          <Table hover>
-                <thead>
-                  <tr>
-                    <th>Session-List</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sessions.map(session=>
-                    <tr key={session.sessionId}>
-                      <td>{session.sessionName}</td>
-                      <td><Button variant={session.isActive?"success":"secondary"} id={session.id} onClick={joinSession}>Join</Button></td>
+  const onSubmit = () => {
+    history.push('/session');
+  }
+
+    return(
+      <Container fluid ="md">
+          <Row>
+        
+          <div class="pt-3 text-center">
+                      <Fab color="secondary" variant="extended" aria-label="add" onClick={onSubmit}>
+                              <AddIcon/>
+                              Adding new Session
+                      </Fab>
+                </div>
+            <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
+            <div class="row">
+               
+            </div>
+          
+            <Table hover>
+                  <thead>
+                    <tr>
+                      <th>Session-List</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sessions.map(sessions=>
+                      <tr key={sessions.sessionId}>
+                      <td>{sessions.sessionName}</td>
+                      <td><Button id={sessions.id} onClick={joinSession} variant={sessions.isActive?"success":"secondary"}>Join</Button></td>
+                      {/* <td><Button variant={sessions.isActive?"success":"danger"} onClick={() => handleActive(sessions.sessionId)}>{sessions.isActive?'Active':'Inactive'}</Button></td> */}
                     </tr>
                   )}
                 </tbody>
