@@ -6,9 +6,9 @@ const classNames = require('classnames');
 class Project extends Component {
     constructor(props){
         super(props);
-        this.state = { 
-            votedFor:false,
-            projectId:this.props.data.projectId
+        this.state = {
+            projectId:this.props.data.projectId, 
+            votedFor:localStorage.getItem('votes') ? localStorage.getItem('votes').includes(this.props.data.projectId) : false
         }
     }
 
@@ -17,8 +17,28 @@ class Project extends Component {
 
         if(this.state.votedFor){
             this.props.handleVoteRemoved(this.state.projectId);
+            
+            let votes = localStorage.getItem('votes');
+
+            if(Array.isArray(votes)){
+                votes.splice(votes.indexOf(this.state.projectId),1);
+            } else{
+                votes = '';
+            }
+
+            localStorage.setItem('votes',votes);
+
         } else{
             this.props.handleVote(this.state.projectId);
+            let votes = localStorage.getItem('votes');
+
+            if(Array.isArray(votes)){
+                votes.push(this.state.projectId);
+            } else{
+                votes = [votes,this.state.projectId];
+            }
+
+            localStorage.setItem('votes',votes);
         }
     }
 

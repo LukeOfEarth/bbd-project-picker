@@ -3,12 +3,6 @@ import '../styles/login.css'
 import { FaMicrosoft, FaGooglePlus, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
 
 class Login extends Component {
-
-    // connect = () => {
-    //     this.props.history.push('/');
-    // };
-
-
     render() {
         return (
 

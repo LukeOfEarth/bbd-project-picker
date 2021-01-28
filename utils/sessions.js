@@ -1,5 +1,17 @@
 let sessions = [];
 
+function getSession(sessionId){
+    let session;
+
+    for(let s in sessions){
+        if(sessions[s].id === sessionId){
+            session = sessions[s];
+        }
+    }
+
+    return session;
+}
+
 function addSession(sessionInfo){
     let newId;
     if(sessions.length){
@@ -72,6 +84,7 @@ function removeSession(sessionId){
 
 module.exports = {
     sessions,
+    getSession,
     addSession,
     removeSession,
     getProjects,

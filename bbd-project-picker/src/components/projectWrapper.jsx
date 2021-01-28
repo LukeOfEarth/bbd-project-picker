@@ -6,9 +6,12 @@ import {useSocket} from '../contexts/socket-provider';
 import {Link} from 'react-router-dom';
 
 function ProjectsWrapper(props){
+    const votesUsed = localStorage.getItem('votes') ? localStorage.getItem('votes').length : 0;
+
     const [sessionId,setSessionId] = useState(props.sessionId);
+    const [sessionInfo, setSessionInfo] = useState({});
     const [projects,setProjects] = useState([]);
-    const [votes,setVotes] = useState(2);
+    const [votes,setVotes] = useState(2 - votesUsed);
     const [sessionActive,setSessionActive] = useState(true);
     const [finalProjects,setFinalProjects] = useState([]);
     const [maxFinalists,setMaxFinalists] = useState(2);
@@ -25,6 +28,10 @@ function ProjectsWrapper(props){
             setProjects(projects);
         });
 
+        socket.on('updated-session',(session) => {
+            setSessionInfo(session);
+        });
+
         socket.on('session-ended',() => {
             let tempProjects = projects;
             tempProjects.sort(({votes:a},{votes:b}) => b-a);
@@ -37,8 +44,13 @@ function ProjectsWrapper(props){
             socket.emit('get-projects',sessionId);
         }
 
-        return () => socket.off('project-updated');
-    },[socket,addNewProject]);
+        return () => {
+            socket.off('updated-projects');
+            socket.off('updated-session');
+            socket.off('session-ended');
+        }
+
+    },[socket,addNewProject,maxFinalists,projects]);
 
     function handleVote(projectId){
         if(votes>0){
@@ -60,13 +72,11 @@ function ProjectsWrapper(props){
         socket.emit('vote-removed',sessionId,projectId);
     }
 
-
-
     if(sessionActive){
         if(projects === null){
             return(
-                <h2>You are not in a live session! Please <Link to="/">join a session</Link></h2>
-            );
+                <h2>You are not in a live session! Please <Link to="/list">join a session</Link></h2>
+            )
         }else{
             return (
                 <>

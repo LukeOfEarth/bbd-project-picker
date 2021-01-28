@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import {Table,Button, Container,Row} from 'react-bootstrap';
 import { useHistory } from "react-router";
 import {useSocket} from '../contexts/socket-provider';
+import {clearLocalStorage} from '../shared/clear-cache';
 
 function JoinedSession(props) {
+  clearLocalStorage();
+
   const history = useHistory();
   const [sessions, setSessions] = useState([]);
   const socket = useSocket();

@@ -30,7 +30,7 @@ function App() {
 
           <Login path="/login" component={Login} />
 
-          <Route path="/" component={() => <JoinedSession onSessionEntered={onSessionEntered}/>}  exact />
+          <Route path="/list" component={() => <JoinedSession onSessionEntered={onSessionEntered}/>}  exact />
 
           <Route path="/session" component={StartSession}/>
 

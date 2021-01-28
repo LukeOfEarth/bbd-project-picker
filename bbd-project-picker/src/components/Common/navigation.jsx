@@ -5,7 +5,7 @@ class Navigation extends React.Component {
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand href="/">Home</Navbar.Brand>
+                <Navbar.Brand href="/list">Home</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">

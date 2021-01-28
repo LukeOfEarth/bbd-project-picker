@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import '../styles/startSession.css';
 import { useHistory } from "react-router";
 import {useSocket} from '../contexts/socket-provider';
+import {clearLocalStorage} from '../shared/clear-cache';
  
 function StartSession() {
+
+  clearLocalStorage();
 
   const history = useHistory();
   const [data, setData] = useState({ });
@@ -29,12 +32,12 @@ function StartSession() {
       }
     });
     
-    history.push('/');
+    history.push('/list');
 
   }
 
   const onClick = () => {
-    history.push('/');
+    history.push('/list');
   };
 
 
