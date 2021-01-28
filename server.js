@@ -13,39 +13,34 @@ const io = require('socket.io')(http, {
     }
   });
 
-// sessionUtil.addSession({
-//   id:0
-// });
-
-
-
-//console.log(sessionUtil.sessions);
-
 io.on('connection', (socket) => {
+    const id = socket.handshake.query.id;
+    socket.join(id);
 
-  socket.on('session-created', (data) => {
-    sessionUtil.addSession(data);
-    console.log('session-created', sessionUtil.sessions);
-  });
+    socket.on('join-session', (sessionId) => {
+      socket.join(sessionId);
+      socket.emit('session-joined',sessionId);
+    });
+
+    socket.on('session-created', (data) => {
+      sessionUtil.addSession(data);
+    });
 
     socket.on('get-sessions', () => {
         socket.emit('updated-sessions',sessionUtil.sessions);
     });
 
-    socket.on('get-projects', () => {
-        socket.emit('updated-projects',sessionUtil.getProjects(0));
+    socket.on('get-projects', (sessionId) => {
+      socket.emit('updated-projects',sessionUtil.getProjects(sessionId));
     });
 
-    socket.on('add-project', (project) => {
+    socket.on('add-project', (sessionId,project) => {
+      sessionUtil.addProject(sessionId,project);
 
-      sessionUtil.addProject(0,project);
-
-      const projectList = sessionUtil.getProjects(0);
+      const projectList = sessionUtil.getProjects(sessionId);
 
       socket.emit('updated-projects',projectList);
-      socket.broadcast.emit('updated-projects',projectList);
-
-      console.log(sessionUtil.sessions);
+      socket.broadcast.to(sessionId).emit('updated-projects',projectList);
     });
 
     socket.on('vote-added', (sessionId,projectId) => {
@@ -54,21 +49,22 @@ io.on('connection', (socket) => {
       const projectList = sessionUtil.getProjects(sessionId);
 
       socket.emit('updated-projects',projectList);
-      socket.broadcast.emit('updated-projects',projectList);
+      socket.broadcast.to(sessionId).emit('updated-projects',projectList);
     });
 
     socket.on('vote-removed', (sessionId,projectId) => {
       votesUtil.removeVote(sessionId,projectId);
 
-      const projectList = sessionUtil.getProjects(sessionId);
-
-      socket.emit('updated-projects',projectList);
-      socket.broadcast.emit('updated-projects',projectList);
+        const projectList = sessionUtil.getProjects(sessionId);
+  
+        socket.emit('updated-projects',projectList);
+        socket.broadcast.to(sessionId).emit('updated-projects',projectList);
     });
 
-    socket.on('session-ended', () => {
+    socket.on('session-ended', (sessionId) => {
       socket.emit('session-ended');
-      socket.broadcast.emit('session-ended');
+      socket.broadcast.to(sessionId).emit('session-ended');
+      sessionUtil.removeSession(sessionId);
     });
 });
 

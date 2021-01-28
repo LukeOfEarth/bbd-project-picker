@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect } from 'react';
 import Suggestion from './suggestionForm';
 import {Button} from 'react-bootstrap';
 import Project from './project';
@@ -6,8 +6,10 @@ import Finalist from './finalist';
 import '../styles/suggestion.css';
 
 import {useSocket} from '../contexts/socket-provider';
+import {Link} from 'react-router-dom';
 
-function ProjectsWrapper(){
+function ProjectsWrapper(props){
+    const [sessionId,setSessionId] = useState(props.sessionId);
     const [projects,setProjects] = useState([]);
     const [votes,setVotes] = useState(2);
     const [sessionActive,setSessionActive] = useState(true);
@@ -16,7 +18,7 @@ function ProjectsWrapper(){
     const socket = useSocket();
 
     function addNewProject(project){
-        socket.emit('add-project',project);
+        socket.emit('add-project',sessionId,project);
     }
 
     useEffect(() => {
@@ -34,7 +36,9 @@ function ProjectsWrapper(){
             setSessionActive(false);
         });
 
-        socket.emit('get-projects');
+        if(sessionActive){
+            socket.emit('get-projects',sessionId);
+        }
 
         return () => socket.off('project-updated');
     },[socket,addNewProject]);
@@ -44,7 +48,7 @@ function ProjectsWrapper(){
             setVotes((votes-1));
             console.log(votes);
 
-            socket.emit('vote-added',0,projectId);
+            socket.emit('vote-added',sessionId,projectId);
             return true;
         } else{
             console.log('no votes left');
@@ -56,12 +60,10 @@ function ProjectsWrapper(){
         setVotes(votes+1);
         console.log(votes);
 
-        socket.emit('vote-removed',0,projectId);
+        socket.emit('vote-removed',sessionId,projectId);
     }
 
-    function endSession(){
-        socket.emit('session-ended');
-    }
+
 
     if(sessionActive){
         return (

@@ -1,5 +1,5 @@
-import ProjectsWrapper from './components/projectWrapper';
 import './App.css';
+import Room from './components/room'
 import JoinedSession from './components/joinSession';
 import StartSession from './components/startSession';
 import Header from './components/Common/header';
@@ -12,12 +12,17 @@ import {
   Route
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form } from 'react-bootstrap';
-
 
 function App() {
+  let sessionId = null;
+
+  function onSessionEntered(id){
+    sessionId = id;
+  }
+
   return (
-    <SocketProvider id={0}>
+    <SocketProvider id={sessionId}>
+      {console.log(sessionId)}
       <Header />
       <Navigation />
       <BrowserRouter>
@@ -25,11 +30,11 @@ function App() {
 
           <Login path="/login" component={Login} />
 
-          <Route path="/" component={JoinedSession} exact />
+          <Route path="/" component={() => <JoinedSession onSessionEntered={onSessionEntered}/>}  exact />
 
-          <Route path="/session" component={StartSession} />
+          <Route path="/session" component={StartSession}/>
 
-          <Route path="/project" render={() => <ProjectsWrapper />
+          <Route path="/project" render={() => <Room/>
 
           } />
         </Switch>

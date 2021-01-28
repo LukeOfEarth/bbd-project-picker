@@ -8,6 +8,7 @@ export function useSocket(){
 }
 
 export function SocketProvider({id,children}){
+    const [sessionId] = useState(id);
     const [socket, setSocket] = useState();
 
     useEffect(() => {
@@ -15,9 +16,8 @@ export function SocketProvider({id,children}){
             query:{id}
         });
         setSocket(newSocket);
-        newSocket.emit('test','test');
         return () => newSocket.close();
-    },[id]);
+    },[id,sessionId]);
 
     return(    
         <SocketContext.Provider value={socket}>

@@ -4,6 +4,7 @@ function addSession(sessionInfo){
     let newId;
     if(sessions.length){
         newId = sessions.length;
+        //TODO: Fix this so it sets to current highest index +1
     }else{
         newId = 0;
     }
@@ -14,17 +15,24 @@ function addSession(sessionInfo){
         id: newId,
         isActive: 'true',
         join: 'true'
+        //TODO: Fix this so it uses actual boolean values
     });
-
-
 }
 
 function getProjects(sessionId){
-    return sessions[sessionId].projects;
+    try{
+        return sessions[sessionId].projects;
+    } catch{
+        return null;
+    }
 }
 
 function getProject(sessionId,projectId){
-    return sessions[sessionId].projects[projectId];
+    try{
+        return sessions[sessionId].projects[projectId];
+    } catch{
+        return null;
+    }
 }
 
 function addProject(sessionId,project){
@@ -33,6 +41,7 @@ function addProject(sessionId,project){
 
     if(sessions[sessionId].projects.length){
         newId = sessions[sessionId].projects.length;
+        //TODO: Fix this so it sets to current highest index +1
     }else{
         newId = 0;
     }
@@ -47,11 +56,17 @@ function addProject(sessionId,project){
 }
 
 function updateProject(sessionId,projectId,project){
-    sessions[sessionId].projects[projectId] = project;
+
+    try{
+        sessions[sessionId].projects[projectId] = project;
+    } catch{
+        return;
+    }
 }
 
 function removeSession(sessionId){
-
+    const removed = sessions.filter(session => session.id === sessionId);
+    sessions.splice(removed,1);
 }
 
 
