@@ -60,22 +60,24 @@ function ProjectsWrapper(props){
         socket.emit('vote-removed',sessionId,projectId);
     }
 
-    if(projects === null){
-        return(
-            <h2>You are not in a live session! Please <Link to="/">join a session</Link></h2>
-        );
-    }
+
 
     if(sessionActive){
-        return (
-            <>
-                {projects.map((project,index) =>
-                    <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
-                )}
-                <Suggestion addNewProject={addNewProject}></Suggestion>
-                <button onClick={() => socket.emit('session-ended',sessionId)}>End Session</button>
-            </>
-        )
+        if(projects === null){
+            return(
+                <h2>You are not in a live session! Please <Link to="/">join a session</Link></h2>
+            );
+        }else{
+            return (
+                <>
+                    {projects.map((project,index) =>
+                        <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
+                    )}
+                    <Suggestion addNewProject={addNewProject}></Suggestion>
+                    <button onClick={() => socket.emit('session-ended',sessionId)}>End Session</button>
+                </>
+            )
+        }
     } else{
         return (
             <>
