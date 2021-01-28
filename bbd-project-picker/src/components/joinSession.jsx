@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import {Table,Button, Container,Row} from 'react-bootstrap';
 import { useHistory } from "react-router";
 
 import {useSocket} from '../contexts/socket-provider';
+
 
 function JoinedSession() {
 
@@ -41,8 +43,18 @@ function JoinedSession() {
     return(
       <Container fluid ="md">
           <Row>
+        
+          <div class="pt-3 text-center">
+                      <Fab color="secondary" variant="extended" aria-label="add" onClick={onSubmit}>
+                              <AddIcon/>
+                              Adding new Session
+                      </Fab>
+                </div>
             <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
-            <button type='button' onClick={onSubmit}>Create a session</button>
+            <div class="row">
+               
+            </div>
+          
             <Table hover>
                   <thead>
                     <tr>

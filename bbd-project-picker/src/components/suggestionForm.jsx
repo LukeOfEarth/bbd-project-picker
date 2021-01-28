@@ -43,21 +43,21 @@ class Suggestion extends Component {
     render() { 
         return (
             <section className='suggestion-form'>
-                <h2>Propose a Project</h2>
+                <h2 className="pb-4">Propose a Project</h2>
                 <form>
-                    <div className='form-input'>
-                        <label className='form-label'>Project Title</label>
-                        <input id='form-input' type='text' name='title' onChange={this.handleChange}>
+                    <div className='form-group form-group row form-input'>
+                        <label className="form-label col-sm-2 col-form-label">Project Title</label>
+                        <input className="form-control" id='form-input' type='text' name='title' onChange={this.handleChange}>
                         
                         </input>
                     </div>
-                    <div className='form-input'>
-                        <label className='form-label'>Project Description</label>
-                        <textarea id='form-text' type='textarea' name='description' onChange={this.handleChange}>
+                    <div className='form-group form-group row form-input'>
+                        <label className='form-label col-sm-2 col-form-label'>Project Description</label>
+                        <textarea className="form-control col-sm-10" id='form-text' type='textarea' name='description' onChange={this.handleChange}>
                         
                         </textarea>
                     </div>
-                    <button className='form-button' onClick={this.handleSubmit}>Submit</button>
+                    <button className='form-button'  onClick={this.handleSubmit}>Submit</button>
                 </form>
             </section> 
         );
