@@ -22,7 +22,6 @@ function App() {
 
   return (
     <SocketProvider id={sessionId}>
-      {console.log(sessionId)}
       <Header />
       <Navigation />
       <BrowserRouter>

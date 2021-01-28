@@ -26,28 +26,24 @@ function StartSession() {
     setData({
       data: {
         sessionName: '',
-        numberOfPeople: '',
-        numberOfTeams: '',
-        numberOfVotes: ''
+        numberOfTeams: ''
       }
     });
     
     history.push('/list');
   }
 
-
-
   return ( 
       <div className='start_session'>
         <div className='sub_start_session'>
           <div className='session_header'>
-            create a New Session
+            Create a New Session
           </div>
           <form autoComplete='off' className='main_form' onSubmit={onCreateSession}>
 
               <div className='main_header'>
                   <label htmlFor="session_input">
-                    session Name *
+                    Session Name
                   </label>
                     <input
                       type='text'
@@ -58,51 +54,20 @@ function StartSession() {
                       onChange= {onChange}
                       required
                     />
-                </div>
-
-                <div className='main_header'>
-                  <label htmlFor="num_input">
-                    Number of people *
-                  </label>
-                    <input
-                      type='number'
-                      className='form_session'
-                      id='num_id'
-                      placeholder='Enter Number of People'
-                      name='numberOfPeople'
-                      onChange= {onChange}
-                      required
-                    />
-                </div>
-
-                <div className='main_header'>
-                  <label htmlFor="teams_input">
-                    Number of Teams *
-                  </label>
-                    <input 
-                      type='number'
-                      className='form_session'
-                      id='teams_id'
-                      placeholder='Enter Number of Teams'
-                      name='numberOfTeams'
-                      onChange= {onChange}
-                      required
-                    />
-                </div>
-
-                <div className='main_header'>
-                  <label htmlFor="vote_input">
-                    Number of Votes *
-                  </label>
-                    <input
-                      type='number'
-                      className='form_session'
-                      id='vote_id'
-                      placeholder='Enter Number Of Votes'
-                      name='numberOfVotes'
-                      onChange= {onChange}
-                      required
-                    />
+              </div>
+              <div className='main_header'>
+                <label htmlFor="teams_input">
+                  Number of Teams
+                </label>
+                  <input 
+                    type='number'
+                    className='form_session'
+                    id='teams_id'
+                    placeholder='Enter Number of Teams'
+                    name='numberOfTeams'
+                    onChange= {onChange}
+                    required
+                  />
               </div>
               <div className='main_header button_inline'>
                 <button className='btn_sub' type="submit">Create</button>

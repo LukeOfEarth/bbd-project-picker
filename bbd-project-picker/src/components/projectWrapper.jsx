@@ -10,12 +10,10 @@ import {useSocket} from '../contexts/socket-provider';
 import {Link} from 'react-router-dom';
 
 function ProjectsWrapper(props){
-    const votesUsed = localStorage.getItem('votes') ? localStorage.getItem('votes').length : 0;
-
     const [sessionId,setSessionId] = useState(props.sessionId);
     const [sessionInfo, setSessionInfo] = useState({});
     const [projects,setProjects] = useState([]);
-    const [votes,setVotes] = useState(2 - votesUsed);
+    const [votes,setVotes] = useState(2);
     const [sessionActive,setSessionActive] = useState(true);
     const [finalProjects,setFinalProjects] = useState([]);
     const [maxFinalists,setMaxFinalists] = useState(2);
@@ -71,8 +69,6 @@ function ProjectsWrapper(props){
     
     function handleVoteRemoved(projectId){
         setVotes(votes+1);
-        console.log(votes);
-
         socket.emit('vote-removed',sessionId,projectId);
     }
 
@@ -85,7 +81,7 @@ function ProjectsWrapper(props){
             return (
                 <>
                     {projects.map((project,index) =>
-                        <Project data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
+                        <Project maxVotes={votes} data={project} key={index} handleVote={handleVote} handleVoteRemoved={handleVoteRemoved}/>
                     )}
                     <Suggestion addNewProject={addNewProject}></Suggestion>
                     <div className="endsession">

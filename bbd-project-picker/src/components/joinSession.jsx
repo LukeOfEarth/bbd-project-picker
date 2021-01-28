@@ -26,12 +26,12 @@ function JoinedSession(props) {
       });
 
       socket.emit('get-sessions');
-      console.log(sessions);
+
       return () => {
         socket.off('updated-sessions');
         socket.off('session-joined');
       }
-    },[socket,joinSession]);
+    },[socket,joinSession,props]);
     
   function joinSession(e){
     const newRoom = e.target.id;
@@ -49,14 +49,14 @@ function JoinedSession(props) {
       <Container fluid ="md">
           <Row>
         
-          <div class="pt-3 text-center">
+          <div className="pt-3 text-center">
                       <Fab color="secondary" variant="extended" aria-label="add" onClick={onSubmit}>
                               <AddIcon/>
                               Adding new Session
                       </Fab>
                 </div>
             <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
-            <div class="row">
+            <div className="row">
                
             </div>
           
