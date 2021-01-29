@@ -6,10 +6,8 @@ import { useHistory } from "react-router";
 import {useSocket} from '../contexts/socket-provider';
 import {clearLocalStorage} from '../shared/clear-cache';
 
-
 function JoinedSession(props) {
   clearLocalStorage();
-
   const history = useHistory();
   const [sessions, setSessions] = useState([]);
   const socket = useSocket();
@@ -33,13 +31,13 @@ function JoinedSession(props) {
       }
     },[socket,joinSession,props]);
     
-  function joinSession(e){
-    const newRoom = e.target.id;
-
-    props.onSessionEntered(newRoom);
-    socket.emit('join-session',newRoom);
-    history.push('/project?room='+newRoom);
-  }
+    function joinSession(e){
+      const newRoom = e.target.id;
+  
+      props.onSessionEntered(newRoom);
+      socket.emit('join-session',newRoom);
+      history.push('/project?room='+newRoom);
+    }
 
   const onSubmit = () => {
     history.push('/session');
@@ -49,14 +47,14 @@ function JoinedSession(props) {
       <Container fluid ="md">
           <Row>
         
-          <div className="pt-3 text-center">
+          <div class="pt-3 text-center">
                       <Fab color="secondary" variant="extended" aria-label="add" onClick={onSubmit}>
                               <AddIcon/>
                               Adding new Session
                       </Fab>
                 </div>
             <h3 className="m-4 d-flex justify-content-center">Session-List</h3>
-            <div className="row">
+            <div class="row">
                
             </div>
           
@@ -72,8 +70,7 @@ function JoinedSession(props) {
                     {sessions.map(sessions=>
                       <tr key={sessions.sessionId}>
                       <td>{sessions.sessionName}</td>
-                      <td><Button id={sessions.id} onClick={joinSession} variant={sessions.isActive?"success":"secondary"}>Join</Button></td>
-                      {/* <td><Button variant={sessions.isActive?"success":"danger"} onClick={() => handleActive(sessions.sessionId)}>{sessions.isActive?'Active':'Inactive'}</Button></td> */}
+                      <td><Button  onClick={(e) => joinSession(e)}variant={sessions.isActive?"success":"secondary"}>Join</Button></td>
                     </tr>
                   )}
                 </tbody>
